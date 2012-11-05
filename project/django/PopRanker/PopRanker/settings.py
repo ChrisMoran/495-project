@@ -1,5 +1,5 @@
 # Django settings for PopRanker project.
-DBLOCATION = "/home/chris/eecs495/project/django/db/sqlite3.db" #EDIT ME 
+DBLOCATION = "/home/chris/eecs495/495-project/project/django/db/sqlite3.db" #EDIT ME 
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -110,7 +110,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/home/chris/eecs495/project/django/PopRanker/templates'
+    '/home/chris/eecs495/495-project/project/django/PopRanker/templates'
 )
 
 INSTALLED_APPS = (

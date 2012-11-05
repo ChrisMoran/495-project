@@ -1,0 +1,20 @@
+<html>
+  <head>
+  </head>
+  <body>
+    {% if results %}
+    <ul>
+      {% for result in results %}
+        <li>
+	  <a href="{{ result.0 }}">
+	    {% autoescape off %}{{ result.1 }}{% endautoescape %}
+	  </a><br/>
+	  <div class="desc">{% autoescape off %}{{ result.2 }}{% endautoescape %}</div>
+	</li>
+	{% endfor %}
+    </ul>
+    {% else %}
+    <div>No search query entered</div>
+    {% endif %}
+  </body>
+</html>

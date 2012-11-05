@@ -41,7 +41,10 @@ def queryGoogle(query, results=10):
         for el in linkList:
             site = el.find('a', 'l')
             desc = el.find('span', 'st')
-            retList.append((site['href'], site.contents, desc.contents))
+            if site is not None and desc is not None:
+                title = ''.join([unicode(x) for x in site.contents])
+                body = ''.join([unicode(x) for x in desc.contents])
+                retList.append((site['href'], title, body))
         fetched = len(retList)
     return retList
 
