@@ -6,7 +6,7 @@ from django.shortcuts import render
 import google
 import alexa
 import re
-from search.models import Search, Rank
+from search.models import Search, Rank, Vote
 
 
 def index(request):
@@ -14,14 +14,15 @@ def index(request):
 
 def search(request):
     if 'query' in request.GET:
-        Search(query=request.GET['query']).save() # record search and timestamp
-        results = google.queryGoogle(request.GET['query'], results=20)
+        q = request.GET['query']
+        Search(query=q).save() # record search and timestamp
+        results = google.queryGoogle(q, results=20)
         rankedResults = []
         for result in results:
             rankedResults.append((int(getAlexaRank(result[0])), result))
 
         rankedResults.sort(key= lambda r: r[0], reverse=True)
-        context = {'results': [r[1] for r in rankedResults] }
+        context = {'results': [r[1] for r in rankedResults], 'query' : q }
     else:
         context = {}
     return render(request, 'search/search.html', context)
@@ -43,5 +44,11 @@ def getAlexaRank(url):
         else:
             return 0
 
-def vote(request):
-    return HttpResponse("this isn't really a visiting page")
+def validVote(req):
+    return ('query' in req.POST) and ('url' in req.POST) and ('vote' in req.POST)
+
+def vote(req):
+    if validVote(req):
+        v = int(req.POST['vote']) == 1 
+        Vote(query=req.POST['query'], link=req.POST['url'], vote=v).save()
+    return HttpResponse("")

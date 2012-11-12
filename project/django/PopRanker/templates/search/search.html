@@ -1,5 +1,7 @@
 <html>
   <head>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}search.js"></script>
   </head>
   <body>
     {% if results %}
@@ -10,6 +12,10 @@
 	    {% autoescape off %}{{ result.1 }}{% endautoescape %}
 	  </a><br/>
 	  <div class="desc">{% autoescape off %}{{ result.2 }}{% endautoescape %}</div>
+	  <div class="voteButtons">
+	    <button type="button" onclick="goodVote($(this),'{{ query }}','{{ result.0 }}')">Good result</button>
+	    <button type="button" onclick="badVote($(this),'{{ query }}','{{ result.0 }}')">Bad result</button>
+	  </div>
 	</li>
 	{% endfor %}
     </ul>

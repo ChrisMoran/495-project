@@ -9,7 +9,7 @@ def fetchGoogleQuery(query, offset=0):
     """
     Returns a tuple of http headers and html of google's response to a query
     """
-    h = httplib2.Http('.cache')
+    h = httplib2.Http()
     #make it look like this is from a browser
     headers = {
         'Accept':'text/html;level=1,text/plain;q=0.5',
