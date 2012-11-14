@@ -19,10 +19,11 @@ def search(request):
         results = google.queryGoogle(q, results=20)
         rankedResults = []
         for result in results:
-            rankedResults.append((int(getAlexaRank(result[0])), result))
+            t = int(getAlexaRank(result[0]))
+            rankedResults.append(result[:] + (t,))
 
-        rankedResults.sort(key= lambda r: r[0], reverse=True)
-        context = {'results': [r[1] for r in rankedResults], 'query' : q }
+        rankedResults.sort(key= lambda r: r[3], reverse=True)
+        context = {'results': rankedResults, 'query' : q }
     else:
         context = {}
     return render(request, 'search/search.html', context)
@@ -30,7 +31,7 @@ def search(request):
 
 def getAlexaRank(url):
     """
-    Checkes local cache is we already have seen this site, otherwise queries alexa
+    Checkes local cache if we already have seen this site, otherwise queries alexa
     """
     parts = url.split('/')
     try:
@@ -52,3 +53,14 @@ def vote(req):
         v = int(req.POST['vote']) == 1 
         Vote(query=req.POST['query'], link=req.POST['url'], vote=v).save()
     return HttpResponse("")
+
+def click(req):
+    if 'query' in req.GET and 'url' in req.GET:
+        response = HttpResponse()
+        response['Location'] = req.url
+        Click(query=req.GET['query'], url=req.GET['url'])
+        return response
+    else: #malformed click, return user to search home
+        response = HttpResponse()
+        response['Location'] = '/'
+        return response
