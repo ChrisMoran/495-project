@@ -41,7 +41,7 @@ def searchajax(request):
         rankedResults.sort(key= lambda r: r[3], reverse=True)
         context = {'results': rankedResults, 'query' : q }
     else:
-        context = {}
+        context = {'error': 'error-data'}
     return HttpResponse(context)
 
 
