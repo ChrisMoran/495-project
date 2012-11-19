@@ -20,7 +20,3 @@ class Results(models.Model):
     url = models.CharField(max_length=1024)
     title = models.CharField(max_length=1024)
     description = models.TextField()
-
-class Click(models.Model):
-    query = models.CharField(max_length=1024)
-    url = models.CharField(max_length=1024)
