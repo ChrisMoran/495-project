@@ -34,6 +34,22 @@ def search(request):
         context = {}
     return render(request, 'search/search.html', context)
 
+def searchajax(request):
+    if 'query' in request.GET:
+        q = request.GET['query']
+        Search(query=q).save() # record search and timestamp
+        results = google.queryGoogle(q, results=20)
+        rankedResults = []
+        for result in results:
+            t = int(getAlexaRank(result[0]))
+            rankedResults.append(result[:] + (t,))
+
+        rankedResults.sort(key= lambda r: r[3], reverse=True)
+        context = {'results': rankedResults, 'query' : q }
+    else:
+        context = {'error': 'error-data'}
+    return HttpResponse(context)
+
 
 def getAlexaRank(url):
     """
