@@ -3,13 +3,13 @@ import httplib2
 import urllib
 import sys
 from bs4 import BeautifulSoup
-
+import re
 
 def fetchGoogleQuery(query, offset=0):
     """
     Returns a tuple of http headers and html of google's response to a query
     """
-    h = httplib2.Http('.cache')
+    h = httplib2.Http()
     #make it look like this is from a browser
     headers = {
         'Accept':'text/html;level=1,text/plain;q=0.5',
@@ -30,17 +30,21 @@ def fetchGoogleQuery(query, offset=0):
     headers, content = h.request(uri, "GET", headers=headers)
     return (headers, content)
 
-
 def queryGoogle(query, results=10):
+    """
+    Searches google for query string, returns at least results number, possibly more 
+    return list of tuples of (link, title, description)
+    """
     retList, fetched = ([], 0)
+    linkGroupRe = re.compile(r'(<li class="g">.*?</li>)')
     while fetched < results:
         headers, content = fetchGoogleQuery(query, offset=fetched)
-        soup = BeautifulSoup(content)
-        linkList = soup.find_all('li', 'g')
+        resultsRaw = linkGroupRe.findall(content) 
 
-        for el in linkList:
-            site = el.find('a', 'l')
-            desc = el.find('span', 'st')
+        for res in resultsRaw:
+            soup = BeautifulSoup(res)
+            site = soup.find('a', 'l')
+            desc = soup.find('span', 'st')
             if site is not None and desc is not None:
                 title = ''.join([unicode(x) for x in site.contents])
                 body = ''.join([unicode(x) for x in desc.contents])

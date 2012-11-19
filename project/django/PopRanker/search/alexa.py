@@ -17,7 +17,7 @@ def alexaRank(domain):
     </sd>
     """
 
-    h = httplib2.Http('.cache')
+    h = httplib2.Http()
     #make it look like this is from a browser
     headers = {
         'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
