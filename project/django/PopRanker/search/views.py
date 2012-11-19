@@ -3,33 +3,30 @@ from django.http import HttpResponse
 
 from django.shortcuts import render
 
-import google
+#import google
+import bing
 import alexa
 import re
 from search.models import Search, Rank, Vote
-import logging
 
-logger = logging.getLogger(__name__)
+
 
 def index(request):
-    print "hello there"
     return render(request, 'search/index.html', {})
 
 def search(request):
-    print "testing"
     if 'query' in request.GET:
         q = request.GET['query']
-        print 'query for %s' % q
         Search(query=q).save() # record search and timestamp
-        print 'saved query, fetching google results'
-        results = google.queryGoogle(q, results=20)
-        print 'got google results, getting alexa ranks'
+        results = bing.search(q, count=25)
+
         rankedResults = []
         for result in results:
-            rankedResults.append((int(getAlexaRank(result[0])), result))
+            t = int(getAlexaRank(result[0]))
+            rankedResults.append(result[:] + (t,))
 
-        rankedResults.sort(key= lambda r: r[0], reverse=True)
-        context = {'results': [r[1] for r in rankedResults], 'query' : q }
+        rankedResults.sort(key= lambda r: r[3], reverse=True)
+        context = {'results': rankedResults, 'query' : q }
     else:
         context = {}
     return render(request, 'search/search.html', context)
@@ -38,7 +35,7 @@ def searchajax(request):
     if 'query' in request.GET:
         q = request.GET['query']
         Search(query=q).save() # record search and timestamp
-        results = google.queryGoogle(q, results=20)
+        results = bing.search(q, count=25)
         rankedResults = []
         for result in results:
             t = int(getAlexaRank(result[0]))
@@ -74,4 +71,7 @@ def vote(req):
     if validVote(req):
         v = int(req.POST['vote']) == 1 
         Vote(query=req.POST['query'], link=req.POST['url'], vote=v).save()
+    return HttpResponse("")
+
+def click(req):
     return HttpResponse("")
