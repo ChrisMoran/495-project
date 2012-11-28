@@ -15,6 +15,11 @@ class Search(models.Model):
     query = models.CharField(max_length=1024)
     timestamp = models.DateTimeField(auto_now=True)
 
+class Click(models.Model):
+    url = models.CharField(max_length=1024)
+    search = models.CharField(max_length=1024)
+    rank = models.IntegerField()
+
 class Results(models.Model):
     query = models.ForeignKey(Search)
     url = models.CharField(max_length=1024)

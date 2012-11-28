@@ -1,5 +1,5 @@
 # Django settings for PopRanker project.
-DBLOCATION = "/home/ubuntu/495-project/project/django/db/sqlite3.db" #EDIT ME 
+DBLOCATION = "/home/chris/eecs495/495-project/project/django/db/sqlite3.db" #EDIT ME 
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -71,7 +71,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/home/ubuntu/495-project/project/django/PopRanker/search/static',
+    '/home/chris/eecs495/495-project/project/django/PopRanker/search/static',
 )
 
 # List of finder classes that know how to find static files in
@@ -111,7 +111,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/home/ubuntu/495-project/project/django/PopRanker/templates'
+    '/home/chris/eecs495/495-project/project/django/PopRanker/templates'
 )
 
 INSTALLED_APPS = (
@@ -136,35 +136,16 @@ INSTALLED_APPS = (
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format' : '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
-        },
-        'simple' : {
-            'format':'%(levelname)s %(message)s'
-        }
-    },
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
         }
     },
     'handlers': {
-        'null': {
-            'level':'DEBUG',
-            'class':'django.utils.log.NullHandler'
-        },
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        },
-        'log_file': {
-            'level':'DEBUG',
-            'class':'logging.handlers.RotatingFileHandler',
-            'filename' : '/home/ubuntu/495-project/project/django/PopRanker/search.log',
-            'maxBytes':'16777216', #16MB
-            'formatter':'simple'
         }
     },
     'loggers': {
@@ -173,10 +154,5 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
-        'search' : {
-            'handlers':['log_file'],
-            'level':'INFO',
-            'propagate':True
-        }
     }
 }
