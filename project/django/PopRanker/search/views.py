@@ -32,7 +32,9 @@ def search(request):
 
         finalResults = []
         for rank, result in enumerate(rankedResults, 1):
+            # for redirect
             url = '/click/?url=%s&rank=%d&search=%s' % (quote(result[0]), rank, q)
+            # add orignial url on the end for voting mechanism
             finalResults.append((url,) + result[1:] + (quote(result[0]),))
 
         context = {'results': finalResults, 'query' : q }
