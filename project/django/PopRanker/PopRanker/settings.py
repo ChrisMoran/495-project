@@ -1,5 +1,6 @@
 # Django settings for PopRanker project.
-DBLOCATION = "/home/chris/eecs495/495-project/project/django/db/sqlite3.db" #EDIT ME 
+PROJ_ROOT = "/home/ubuntu/" # edit me
+DBLOCATION = PROJ_ROOT + "495-project/project/django/db/sqlite3.db" 
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -71,7 +72,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/home/chris/eecs495/495-project/project/django/PopRanker/search/static',
+    PROJ_ROOT + '495-project/project/django/PopRanker/search/static',
 )
 
 # List of finder classes that know how to find static files in
@@ -111,7 +112,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    '/home/chris/eecs495/495-project/project/django/PopRanker/templates'
+    PROJ_ROOT + '495-project/project/django/PopRanker/templates'
 )
 
 INSTALLED_APPS = (
