@@ -1,3 +1,30 @@
+$(document).ready(function() {
+
+  $("#querybox").val(getParameter("query"));
+
+});
+
+/* From StackOverflow
+ *
+ * Takes in the name of a parameter and parses the URL
+ * returning the value associated with that parameter
+ */
+function getParameter(paramName) {
+  var searchString = window.location.search.substring(1),
+      i, val, params = searchString.split("&");
+
+  for (i=0;i<params.length;i++) {
+    val = params[i].split("=");
+    if (val[0] == paramName) {
+      return decodeURIComponent(val[1].replace(/\+/g," "));
+    }
+  }
+
+  return null;
+
+}
+
+
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
