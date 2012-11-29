@@ -35,7 +35,7 @@ def search(request):
             # for redirect
             url = '/click/?url=%s&rank=%d&search=%s' % (quote(result[0]), rank, q)
             # add orignial url on the end for voting mechanism
-            finalResults.append((url,) + result[1:] + (quote(result[0]),))
+            finalResults.append((url,) + result[1:] + (quote(result[0]),) + (Vote.objects.filter(link__startswith=result[0]).filter(vote=True).count(),) + (Vote.objects.filter(link__startswith=result[0]).filter(vote=False).count(),))
 
         context = {'results': finalResults, 'query' : q }
     else:
