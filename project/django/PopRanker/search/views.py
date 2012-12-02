@@ -9,7 +9,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 import bing
 import alexa
 import re
-from search.models import Search, Rank, Vote, Click
+from search.models import Search, Rank, Vote, Click, BingRank, PopRank
 
 
 
@@ -24,9 +24,9 @@ def search(request):
         results = bing.search(q, count=25)
 
         rankedResults = []
-        for result in results:
+        for bing_rank, result in enumerate(results, 1):
             t = int(getAlexaRank(result[0]))
-            rankedResults.append(result[:] + (t,))
+            rankedResults.append(result[:] + (t,bing_rank))
 
         rankedResults.sort(key= lambda r: r[3], reverse=True)
 
@@ -34,6 +34,9 @@ def search(request):
         for rank, result in enumerate(rankedResults, 1):
             # for redirect
             url = '/click/?url=%s&rank=%d&search=%s' % (quote(result[0]), rank, q)
+            BingRank(search=q, url=result[0], rank=result[4]).save()
+            PopRank(search=q, url=result[0], rank=rank).save()
+
             # add orignial url on the end for voting mechanism
             finalResults.append((url,) + result[1:] + (quote(result[0]),) + (Vote.objects.filter(link__startswith=result[0]).filter(vote=True).count(),) + (Vote.objects.filter(link__startswith=result[0]).filter(vote=False).count(),))
 
