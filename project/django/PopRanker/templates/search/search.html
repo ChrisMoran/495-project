@@ -10,7 +10,6 @@
     </style>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}search.js"></script>
-    <title>{{ query }}</title>
   </head>
   <body>
      <div class="navbar navbar-inverse navbar-fixed-top">
@@ -40,7 +39,7 @@
       <div class="row"> 
         <form method="get" action="search/" class="well form-search">
           
-          <input type="text" class="input-large search-query" name="query" style="width:500px; height:40px;">&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="text" id="querybox" class="input-large search-query" name="query" style="width:500px; height:40px;">&nbsp;&nbsp;&nbsp;&nbsp;
           <input class="btn btn-large btn-primary" type="submit" value="Search"/>
         
         </form>
@@ -50,8 +49,8 @@
         <table class="table table-bordered table-hover table-striped">
           <thead>
             <tr>
-              <td>#</td>
-              <td>Result</td>
+              <td><strong>Alexa Rank</strong></td>
+              <td><strong>Result</strong></td>
             </tr>
           </thead>
           <tbody>
@@ -69,12 +68,15 @@
             </td>
           </tr>
           <tr>
-            <td colspan=2>
+            <td>
 	            <div class="voteButtons">
 	        
-	              <button type="button" class="btn btn-success" onclick="goodVote($(this),'{{ query }}','{{ result.0 }}')">Good result</button>
-	              <button type="button" class="btn btn-danger" onclick="badVote($(this),'{{ query }}','{{ result.0 }}')">Bad result</button>
+	              <button type="button" class="btn btn-success" onclick="goodVote($(this),'{{ query }}','{{ result.4 }}')">Good Result</button>
+	              <button type="button" class="btn btn-danger" onclick="badVote($(this),'{{ query }}','{{ result.4 }}')">Bad Result</button>
               </div>
+            </td>
+            <td>
+                Upvotes: {{ result.5 }}, Downvotes: {{ result.6 }}
             </td>
           </tr>
         </tbody>
